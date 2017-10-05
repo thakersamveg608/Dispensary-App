@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <TextView
+        android:id="@+id/otp_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:textColor="@color/white"
+        android:textSize="35dp"
+        android:text="Enter OTP"/>
+    <EditText
+        android:id="@+id/otp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/otp_heading"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:textColorHint="@color/grey"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/underline"
+        android:hint="Enter OTP here"/>
+    <Button
+        android:id="@+id/verify"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/otp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_rounded_corner"
+        android:textSize="16dp"
+        android:textColor="@color/background"
+        android:text="Verify" />
+    <Button
+        android:id="@+id/resend_otp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/verify"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
+        android:textAllCaps="false"
+        android:textSize="16dp"
+        android:textColor="@color/grey"
+        android:text="Resend OTP"/>
+    <ProgressBar
+        android:id="@+id/progressBar_otp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

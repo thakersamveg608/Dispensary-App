@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+        <TextView
+            android:id="@+id/sign_in"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="30dp"
+            android:clickable="true"
+            android:textColor="@color/grey"
+            android:textSize="30dp"
+            android:text="Sign In"/>
+        <View
+            android:id="@+id/sign_in_underline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/underline"
+            android:layout_alignStart="@+id/sign_in"
+            android:layout_alignEnd="@+id/sign_in"
+            android:layout_below="@+id/sign_in"
+            android:layout_alignRight="@+id/sign_in"
+            android:layout_alignLeft="@+id/sign_in"
+            android:visibility="gone">
+
+        </View>
+        <TextView
+            android:id="@+id/or"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/sign_in"
+            android:textSize="30dp"
+            android:textColor="@color/grey"
+            android:text="or"/>
+        <TextView
+            android:id="@+id/sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/or"
+            android:textColor="@color/white"
+            android:textSize="30dp"
+            android:text="Sign Up"/>
+        <View
+            android:id="@+id/sign_up_underline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/underline"
+            android:layout_alignStart="@+id/sign_up"
+            android:layout_alignEnd="@+id/sign_up"
+            android:layout_below="@+id/sign_up"
+            android:layout_alignRight="@+id/sign_up"
+            android:layout_alignLeft="@+id/sign_up">
+
+        </View>
+        <TextView
+            android:id="@+id/name_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/sign_in"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="FULL NAME" />
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:layout_below="@+id/name_heading"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/grey"
+            android:textColorHint="@color/grey"
+            android:hint="Enter your full name"/>
+        <TextView
+            android:id="@+id/username_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/name"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="USERNAME" />
+        <EditText
+            android:id="@+id/user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:layout_below="@+id/username_heading"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/grey"
+            android:textColorHint="@color/grey"
+            android:hint="Your username must contain characters,digit or special character"/>
+
+        <TextView
+            android:id="@+id/contact_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/user_name"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="CONTACT NUMBER" />
+        <EditText
+            android:id="@+id/contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:layout_below="@+id/contact_heading"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/grey"
+            android:textColorHint="@color/grey"
+            android:hint="Enter your contact number"/>
+        <TextView
+            android:id="@+id/password_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/contact"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="PASSWORD" />
+        <EditText
+            android:id="@+id/password"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:layout_below="@+id/password_heading"
+            android:textSize="18dp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/grey"
+            android:textColorHint="@color/grey"
+            android:hint="Enter password"/>
+        <TextView
+            android:id="@+id/retype_password_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/password"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="RETYPE PASSWORD" />
+        <EditText
+            android:id="@+id/retype_password"
+            android:inputType="textPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:layout_below="@+id/retype_password_heading"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:fontFamily="sans-serif"
+            android:backgroundTint="@color/grey"
+            android:textColorHint="@color/grey"
+            android:hint="Enter password again"/>
+        <TextView
+            android:id="@+id/blood_group_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/retype_password"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:text="BLOOD GROUP" />
+        <EditText
+            android:id="@+id/blood_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="40dp"
+            android:layout_below="@+id/blood_group_heading"
+            android:textSize="18dp"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/grey"
+            android:textColorHint="@color/grey"
+            android:hint="Enter blood group"/>
+        <Button
+            android:id="@+id/register"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/blood_group"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_rounded_corner"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:textAllCaps="false"
+            android:textColor="@color/background"
+            android:text="Register"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/register"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="2dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/grey"
+            android:textSize="15dp"
+            android:text="An OTP will be sent to registered contact number"/>
+        <ProgressBar
+            android:id="@+id/progressBar_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+</ScrollView>
