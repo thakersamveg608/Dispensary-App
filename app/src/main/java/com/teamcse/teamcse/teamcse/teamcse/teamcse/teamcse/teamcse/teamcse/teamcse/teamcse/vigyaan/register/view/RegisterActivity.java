@@ -23,12 +23,15 @@ import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamc
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.register.presenter.RegisterPresenterImpl;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.register.provider.RetrofitRegisterHelper;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class RegisterActivity extends AppCompatActivity implements RegisterView{
 
-    public String Name,Contact,Password,RePassword,BloodGroup,Username;
+    public String Name,Contact,Password,RePassword,BloodGroup,Username,Email;
 
     private SharedPrefs sharedPrefs;
 
@@ -58,6 +61,8 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     View signUpUnderLine;
     @BindView(R.id.user_name)
     EditText userName;
+    @BindView(R.id.email)
+    EditText email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +126,9 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         RePassword=reTypePassword.getText().toString().trim();
         BloodGroup=bloodGroup.getText().toString().trim();
         Username=userName.getText().toString().trim();
+        Email=email.getText().toString().trim();
 
-        if(Name.isEmpty() || Contact.isEmpty() || Password.isEmpty() || RePassword.isEmpty() || BloodGroup.isEmpty() || Username.isEmpty()){
+        if(Name.isEmpty() || Contact.isEmpty() || Password.isEmpty() || RePassword.isEmpty() || BloodGroup.isEmpty() || Username.isEmpty() || Email.isEmpty()){
             showProgressBar(false);
             showError("You have one or more fields empty!");
         }
@@ -134,9 +140,13 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
             showProgressBar(false);
             showError("The passwords you entered does not match!");
         }
+        else if(emailInvalid(Email)){
+            Toast.makeText(this, "ENTER VALID EMAIL ID!",
+                    Toast.LENGTH_LONG).show();
+        }
         else{
             registerPresenter = new RegisterPresenterImpl(new RetrofitRegisterHelper(),this);
-            registerPresenter.getRegisterData(Name,Contact,Password,BloodGroup,Username);
+            registerPresenter.getRegisterData(Name,Contact,Password,BloodGroup,Username,Email);
         }
     }
     public void goToSignIn(){
@@ -170,8 +180,21 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         sharedPrefs.setBloodGroup(BloodGroup);
         sharedPrefs.setPassword(Password);
         sharedPrefs.setUserName(Username);
+        sharedPrefs.setEmail(Email);
         sharedPrefs.setAccessToken(registerDataResponse.getToken());
         finish();
 
+    }
+    public boolean emailInvalid(String email) {
+        Pattern pattern;
+        Matcher matcher;
+
+        final String EMAIL_PATTERN =
+                "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+                        + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        pattern = Pattern.compile(EMAIL_PATTERN);
+        matcher = pattern.matcher(email);
+        boolean a = matcher.matches();
+        return !a;
     }
 }

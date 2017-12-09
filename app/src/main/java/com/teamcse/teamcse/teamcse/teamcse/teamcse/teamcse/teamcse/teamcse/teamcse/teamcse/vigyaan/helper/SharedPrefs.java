@@ -17,7 +17,9 @@ public class SharedPrefs {
     private static final String KEY_MOBILE = "mobile";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_BLOODGROUP = "bloodGroup";
+    private static final String KEY_EMAIL = "email";
     private static final String KEY_FCM = "fcm";
+    private static final String KEY_ADDRESS = "address";
     private static final String KEY_ACCESS_TOKEN = "access_token";
     private static final int KEY_VERSION=1;
     // LogCat tag
@@ -120,5 +122,20 @@ public class SharedPrefs {
 
     public String getUserName(){
         return pref.getString(KEY_USERNAME,"your username");
+    }
+
+    public void setEmail(String email){
+        editor.putString(KEY_EMAIL,email);
+        editor.commit();
+    }
+    public String getEmail(){
+        return pref.getString(KEY_EMAIL,"your email");
+    }
+    public void setAddress(String Address){
+        editor.putString(KEY_ADDRESS,Address);
+        editor.commit();
+    }
+    public String getAddress(){
+        return pref.getString(KEY_ADDRESS,"your address");
     }
 }

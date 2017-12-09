@@ -20,10 +20,10 @@ public class RegisterPresenterImpl implements RegisterPresenter{
     }
 
     @Override
-    public void getRegisterData(String name, String mobile, String password, String bloodGroup , String userName) {
+    public void getRegisterData(String name, String mobile, String password, String bloodGroup , String userName,String eMail) {
 
         registerView.showProgressBar(true);
-        registerBaseClassHelper.registerData(name, mobile, password, bloodGroup,userName, new RegisterCallback() {
+        registerBaseClassHelper.registerData(name, mobile, password, bloodGroup,userName,eMail, new RegisterCallback() {
             @Override
             public void onRegisterSuccess(RegisterDataResponse registerResponse) {
                 if(registerResponse.isSuccess()){

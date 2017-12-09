@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitRegisterHelper implements RegisterBaseClassHelper{
     @Override
-    public void registerData(String name, String mobile, String password, String bloodGroup,String userName,final RegisterCallback registerCallback) {
+    public void registerData(String name, String mobile, String password, String bloodGroup,String userName,String eMail,final RegisterCallback registerCallback) {
 
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -30,7 +30,7 @@ public class RetrofitRegisterHelper implements RegisterBaseClassHelper{
 
         Retrofit retrofit= new Retrofit.Builder().baseUrl(Urls.BASE_URL).client(client).addConverterFactory(GsonConverterFactory.create()).build();
         RequestRegister requestRegister = retrofit.create(RequestRegister.class);
-        Call<RegisterDataResponse> call= requestRegister.getJSON(name,mobile,password,bloodGroup,userName);
+        Call<RegisterDataResponse> call= requestRegister.getJSON(name,mobile,password,bloodGroup,userName,eMail);
         call.enqueue(new Callback<RegisterDataResponse>() {
             @Override
             public void onResponse(Call<RegisterDataResponse> call, Response<RegisterDataResponse> response) {

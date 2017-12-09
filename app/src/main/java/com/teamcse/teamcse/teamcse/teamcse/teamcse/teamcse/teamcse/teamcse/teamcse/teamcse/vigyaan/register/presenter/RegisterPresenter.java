@@ -6,6 +6,6 @@ package com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.team
 
 public interface RegisterPresenter {
 
-    void getRegisterData(String name,String mobile,String password,String bloodGroup,String userName);
+    void getRegisterData(String name,String mobile,String password,String bloodGroup,String userName,String email);
 
 }

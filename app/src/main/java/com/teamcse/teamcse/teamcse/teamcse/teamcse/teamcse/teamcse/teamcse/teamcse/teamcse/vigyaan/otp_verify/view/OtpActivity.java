@@ -14,12 +14,9 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.HomeActivity;
+import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.home.HomeActivity;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.R;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.helper.SharedPrefs;
-import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.login.model.LoginDataResponse;
-import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.login.provider.RetrofitLoginHelper;
-import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.login.view.LoginView;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.otp_verify.model.OtpData;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.otp_verify.presenter.OtpVerifyPresenter;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.otp_verify.presenter.OtpVerifyPresenterImpl;
@@ -32,8 +29,6 @@ import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamc
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static android.R.id.message;
 
 public class OtpActivity extends AppCompatActivity implements OtpView{
 
@@ -126,7 +121,7 @@ public class OtpActivity extends AppCompatActivity implements OtpView{
 
             }
         });
-        registerPresenter.getRegisterData(sharedPrefs.getName(),sharedPrefs.getMobile(),sharedPrefs.getPassword(),sharedPrefs.getBloodGroup(),sharedPrefs.getUserName());
+        registerPresenter.getRegisterData(sharedPrefs.getName(),sharedPrefs.getMobile(),sharedPrefs.getPassword(),sharedPrefs.getBloodGroup(),sharedPrefs.getUserName(),sharedPrefs.getEmail());
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override

@@ -8,6 +8,6 @@ import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamc
 
 public interface RegisterBaseClassHelper {
 
-    void registerData(String name, String mobile, String password, String bloodGroup,String userName,RegisterCallback loginCallback);
+    void registerData(String name, String mobile, String password, String bloodGroup,String userName,String eMail,RegisterCallback loginCallback);
 
 }
