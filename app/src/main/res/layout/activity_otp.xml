@@ -23,7 +23,7 @@
         android:gravity="center"
         android:textColorHint="@color/grey"
         android:textColor="@color/white"
-        android:backgroundTint="@color/underline"
+        android:backgroundTint="@color/focus"
         android:hint="Enter OTP here"/>
     <Button
         android:id="@+id/verify"
@@ -51,7 +51,7 @@
     <ProgressBar
         android:id="@+id/progressBar_otp"
         android:elevation="1dp"
-        android:indeterminateTint="@color/underline"
+        android:indeterminateTint="@color/focus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"

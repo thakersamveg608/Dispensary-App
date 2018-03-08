@@ -6,6 +6,14 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/background</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/focus</item>
+        <item name="colorControlActivated">@color/focus</item>
+        <item name="colorControlHighlight">@color/focus</item>
+    </style>
+
+    <style name="HintText" parent="TextAppearance.Design.Hint">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/focus</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

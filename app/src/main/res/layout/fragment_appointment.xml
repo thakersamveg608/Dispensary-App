@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android" />
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
 
     <ProgressBar
         android:id="@+id/progressBar_appointment"
@@ -11,7 +17,7 @@
         android:layout_centerVertical="true"
         android:elevation="1dp"
         android:visibility="gone"
-        android:indeterminateTint="@color/underline"/>
+        android:indeterminateTint="@color/focus"/>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,82 +30,103 @@
             android:textSize="30dp"
             android:textColor="@color/white"
             android:text="Appointment"/>
-        <EditText
-            android:id="@+id/name"
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_name"
+            android:hint="Patient's Full Name"
+            android:textColorHint="@color/white"
+            app:hintTextAppearance="@style/HintText"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:layout_marginTop="60dp"
             android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="18dp"
-            android:backgroundTint="@color/grey"
+            android:layout_marginLeft="30dp">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="18dp"
+                android:backgroundTint="@color/grey"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white"
+                />
+
+        </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_layout_issue"
+            android:hint="Medical Issue"
             android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:hint="Patient's Full Name"/>
-        <EditText
-            android:id="@+id/issue"
+            app:hintTextAppearance="@style/HintText"
+            android:backgroundTint="@color/focus"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="60dp"
             android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
-            android:layout_marginLeft="30dp"
-            android:textSize="18dp"
-            android:backgroundTint="@color/grey"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
-            android:hint="Medical Issue"/>
+            android:layout_marginLeft="30dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="30dp">
-            <TextView
-                android:id="@+id/text_date"
+            <EditText
+                android:id="@+id/issue"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="bottom"
-                android:paddingRight="5dp"
+                android:layout_height="match_parent"
                 android:textSize="18dp"
-                android:textColor="@color/white"
-                android:text="Date"
-                android:drawableRight="@drawable/down_arrow"
-                android:clickable="true"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1.25dp"
-                android:background="@color/grey"
-                android:layout_below="@+id/text_date"></View>
+                android:backgroundTint="@color/grey"
+                android:textColorHint="@color/white"
+                android:textColor="@color/white" />
 
-        </RelativeLayout>
-        <RelativeLayout
+        </android.support.design.widget.TextInputLayout>
+
+
+
+    <devs.mulham.horizontalcalendar.HorizontalCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:background="@color/background"
+        app:textColorNormal="@color/grey"
+        app:textColorSelected="@color/white"
+        app:selectorColor="@color/focus"/>
+
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="50dp"-->
+            <!--android:layout_marginLeft="30dp"-->
+            <!--android:layout_marginRight="30dp"-->
+            <!--android:layout_marginTop="20dp">-->
+            <!--<TextView-->
+                <!--android:id="@+id/text_time"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="30dp"-->
+                <!--android:gravity="bottom"-->
+                <!--android:paddingRight="5dp"-->
+                <!--android:textSize="18dp"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:text="Time"-->
+                <!--android:drawableRight="@drawable/down_arrow"-->
+                <!--/>-->
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1.25dp"-->
+                <!--android:background="@color/grey"-->
+                <!--android:layout_below="@+id/text_time">-->
+
+            <!--</View>-->
+
+        <!--</RelativeLayout>-->
+
+        <TimePicker
+            android:id="@+id/timePicker"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp">
-            <TextView
-                android:id="@+id/text_time"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="bottom"
-                android:paddingRight="5dp"
-                android:textSize="18dp"
-                android:textColor="@color/white"
-                android:text="Time"
-                android:drawableRight="@drawable/down_arrow"
-                />
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1.25dp"
-                android:background="@color/grey"
-                android:layout_below="@+id/text_time">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:background="@color/background"
+            android:padding="20dp"
+            android:soundEffectsEnabled="true"
 
-            </View>
+            android:timePickerMode="spinner" />
 
-        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -136,6 +163,7 @@
             android:background="@drawable/button_rounded_corner2"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="40dp"
             android:textColor="@color/white"
@@ -144,3 +172,4 @@
     </LinearLayout>
 
 </RelativeLayout>
+</ScrollView>

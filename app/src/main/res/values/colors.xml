@@ -6,7 +6,7 @@
 
     <color name="grey">#808582</color>
     <color name="background">#253143</color>
-    <color name="underline">#6BDDC8</color>
+    <color name="focus">#6BDDC8</color>
     <color name="white">#ffffff</color>
     <color name="red">#ed1c24</color>
 </resources>
