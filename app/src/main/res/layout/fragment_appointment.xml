@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     xmlns:android="http://schemas.android.com/apk/res/android" />
 <RelativeLayout android:layout_width="match_parent"
+    android:id="@+id/parent_view"
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -76,51 +77,55 @@
 
         </android.support.design.widget.TextInputLayout>
 
-
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="Day"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/grey"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="120dp"></View>
 
     <devs.mulham.horizontalcalendar.HorizontalCalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:background="@color/background"
         app:textColorNormal="@color/grey"
         app:textColorSelected="@color/white"
         app:selectorColor="@color/focus"/>
 
-        <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="50dp"-->
-            <!--android:layout_marginLeft="30dp"-->
-            <!--android:layout_marginRight="30dp"-->
-            <!--android:layout_marginTop="20dp">-->
-            <!--<TextView-->
-                <!--android:id="@+id/text_time"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:gravity="bottom"-->
-                <!--android:paddingRight="5dp"-->
-                <!--android:textSize="18dp"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:text="Time"-->
-                <!--android:drawableRight="@drawable/down_arrow"-->
-                <!--/>-->
-            <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="1.25dp"-->
-                <!--android:background="@color/grey"-->
-                <!--android:layout_below="@+id/text_time">-->
-
-            <!--</View>-->
-
-        <!--</RelativeLayout>-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:text="Time"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/grey"
+            android:layout_marginLeft="120dp"
+            android:layout_marginRight="120dp"></View>
 
         <TimePicker
             android:id="@+id/timePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
             android:background="@color/background"
             android:padding="20dp"
             android:soundEffectsEnabled="true"

@@ -1,9 +1,7 @@
 package com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.appointment.view;
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
+import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Paint;
 import android.net.Uri;
@@ -13,24 +11,21 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.dd.CircularProgressButton;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.R;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.appointment.model.AppointmentDataResponse;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.appointment.presenter.AppointmentPresenter;
@@ -39,11 +34,15 @@ import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamc
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.helper.SharedPrefs;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.hospital.HospitalFragment;
 import com.valdesekamdem.library.mdtoast.MDToast;
+import com.yarolegovich.lovelydialog.LovelyInfoDialog;
+import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Date;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,7 +57,7 @@ import devs.mulham.horizontalcalendar.utils.HorizontalCalendarListener;
  * Use the {@link AppointmentFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class AppointmentFragment extends Fragment implements View.OnClickListener,AppointmentView{
+public class AppointmentFragment extends Fragment implements AppointmentView{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -72,9 +71,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
 
     private HospitalFragment.OnFragmentInteractionListener mListener;
 
-    private TextView btnDatePicker, btnTimePicker;
-    private int mYear, mMonth, mDay, mHour, mMinute;
-    String name,issue,type,date,time;
+    public String name,issue,type, date_of_appointment ="",time="";
 
     @BindView(R.id.name)
     EditText patientName;
@@ -102,6 +99,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
     TimePicker timePicker;
 
     AppointmentPresenter appointmentPresenter;
+    HorizontalCalendar horizontalCalendar;
 
     public AppointmentFragment() {
         // Required empty public constructor
@@ -141,18 +139,14 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
         ButterKnife.bind(this,v);
 
 
-//        btnDatePicker=(TextView)v.findViewById(R.id.text_date);
-//        btnTimePicker=(TextView)v.findViewById(R.id.text_time);
         timePicker = (TimePicker) v.findViewById(R.id.timePicker);
-        timePicker.setIs24HourView(false);
+        timePicker.setIs24HourView(true);
 
         sharedPrefs = new SharedPrefs(getContext());
 
-        input(v);
+        initialise(v);
+        setupUI(v.findViewById(R.id.parent_view));
         set_timepicker_text_colour(timePicker);
-
-//        btnDatePicker.setOnClickListener(this);
-//        btnTimePicker.setOnClickListener(this);
 
         appoint_click.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,22 +157,41 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
                 int selectedId = issueType.getCheckedRadioButtonId();
                 radioButton = (RadioButton) v.findViewById(selectedId);
                 type=radioButton.getText().toString();
-//                time=mHour+":"+mMinute;
-//                date=mYear+"-"+(mMonth+1)+"-"+mDay;
 
-                if(!validateName() || !validateIssue() || Integer.toString(mHour).isEmpty() || Integer.toString(mYear).isEmpty()){
-//                    Toast.makeText(getContext(), "One or more fields empty!", Toast.LENGTH_LONG).show();
+                if(date_of_appointment.isEmpty()){
+                    //Setting today's date as default
+                    Calendar calendar = Calendar.getInstance();
+                    SimpleDateFormat mdformat = new SimpleDateFormat("dd / MM / yyyy");
+                    date_of_appointment = mdformat.format(calendar.getTime());
+                }
+
+                if(!validateName() || !validateIssue() || date_of_appointment.isEmpty()){
                     MDToast mdToast = MDToast.makeText(getActivity(), "One or more fields empty", MDToast.LENGTH_LONG, MDToast.TYPE_WARNING);
                     mdToast.show();
                 }
+                else if(!validateTime()){
+
+                }
                 else
                 {
-                    appointmentPresenter = new AppointmentPresenterImpl(AppointmentFragment.this,new RetrofitAppointmentHelper());
-                    appointmentPresenter.getAppointmentData(name,sharedPrefs.getAccessToken(),issue,date,time,type);
-                    patientName.setHint("Patient's Full Name");
-                    medicalIssue.setHint("Medical Issue");
-                    btnDatePicker.setText("Date");
-                    btnTimePicker.setText("Time");
+                    new LovelyStandardDialog(getActivity(), LovelyStandardDialog.ButtonLayout.HORIZONTAL)
+                            .setTopColorRes(R.color.background)
+                            .setButtonsColorRes(R.color.focus)
+                            .setIcon(R.drawable.ic_info)
+                            .setTitle("Confirm your appointment")
+                            .setMessage(name+",do you want to confirm your appointment for "+date_of_appointment+" at "+time)
+                            .setPositiveButton("Confirm", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    appointmentPresenter = new AppointmentPresenterImpl(AppointmentFragment.this,new RetrofitAppointmentHelper());
+                                    appointmentPresenter.getAppointmentData(name,sharedPrefs.getAccessToken(),issue, date_of_appointment,time,type);
+                                    patientName.setHint("Patient's Full Name");
+                                    medicalIssue.setHint("Medical Issue");
+                                    horizontalCalendar.refresh();
+                                }
+                            })
+                            .setNegativeButton("Edit", null)
+                            .show();
 
                 }
             }
@@ -207,54 +220,6 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onClick(View v) {
-
-//        if (v == btnDatePicker) {
-//
-//            // Get Current Date
-//            final Calendar c = Calendar.getInstance();
-//            mYear = c.get(Calendar.YEAR);
-//            mMonth = c.get(Calendar.MONTH);
-//            mDay = c.get(Calendar.DAY_OF_MONTH);
-//
-//
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(),
-//                    new DatePickerDialog.OnDateSetListener() {
-//
-//                        @Override
-//                        public void onDateSet(DatePicker view, int year,
-//                                              int monthOfYear, int dayOfMonth) {
-//
-//                            btnDatePicker.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-//
-//                        }
-//                    }, mYear, mMonth, mDay);
-//            datePickerDialog.show();
-//        }
-//        if (v == btnTimePicker) {
-//
-//            // Get Current Time
-//            final Calendar c = Calendar.getInstance();
-//            mHour = c.get(Calendar.HOUR_OF_DAY);
-//            mMinute = c.get(Calendar.MINUTE);
-//
-//            // Launch Time Picker Dialog
-//            TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
-//                    new TimePickerDialog.OnTimeSetListener() {
-//
-//                        @Override
-//                        public void onTimeSet(TimePicker view, int hourOfDay,
-//                                              int minute) {
-//
-//                            btnTimePicker.setText(hourOfDay + ":" + minute);
-//                        }
-//                    }, mHour, mMinute, false);
-//            timePickerDialog.show();
-//        }
-
-    }
-
-    @Override
     public void showProgressBar(boolean show) {
         if (show) {
             progressBar.setVisibility(View.VISIBLE);
@@ -266,34 +231,45 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
     @Override
     public void showError(String message) {
 
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        MDToast mdToast = MDToast.makeText(getActivity(), message, MDToast.LENGTH_LONG, MDToast.TYPE_ERROR);
+        mdToast.show();
 
     }
 
     @Override
     public void showAppointmentStatus(AppointmentDataResponse appointmentDataResponse) {
 
-        Toast.makeText(getContext(), "Appointment Successfull!!", Toast.LENGTH_LONG).show();
-
+        MDToast mdToast = MDToast.makeText(getActivity(), "Appointment Successful", MDToast.LENGTH_LONG, MDToast.TYPE_SUCCESS);
+        mdToast.show();
     }
-    public void input(View rootview){
+    public void initialise(View rootview){
 
         patientName.addTextChangedListener(new MyTextWatcher(patientName));
         medicalIssue.addTextChangedListener(new MyTextWatcher(medicalIssue));
+
+
+
         /* starts before 1 month from now */
         Calendar startDate = Calendar.getInstance();
         startDate.add(Calendar.MONTH, 0);
 
-/* ends after 1 month from now */
+        /* ends after 1 month from now */
         Calendar endDate = Calendar.getInstance();
         endDate.add(Calendar.MONTH, 2);
-        HorizontalCalendar horizontalCalendar = new HorizontalCalendar.Builder(rootview, R.id.calendarView).range(startDate, endDate)
+        horizontalCalendar = new HorizontalCalendar.Builder(rootview, R.id.calendarView).range(startDate, endDate)
                 .datesNumberOnScreen(5)
                 .build();
         horizontalCalendar.setCalendarListener(new HorizontalCalendarListener() {
             @Override
             public void onDateSelected(Calendar date, int position) {
-                //do something
+                date_of_appointment = date.DAY_OF_MONTH+"-"+date.MONTH+"-"+date.YEAR;
+            }
+        });
+
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                time = hourOfDay + " : " + minute;
             }
         });
     }
@@ -341,7 +317,7 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
     {
         if (patientName.getText().toString().trim().isEmpty()) {
             inputLayoutName.setError(getString(R.string.err_msg_empty));
-            requestFocus(patientName);
+//            requestFocus(patientName);
             return false;
         } else {
             inputLayoutName.setErrorEnabled(false);
@@ -354,13 +330,67 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
     {
         if (medicalIssue.getText().toString().trim().isEmpty()) {
             inputLayoutName.setError(getString(R.string.err_msg_empty));
-            requestFocus(medicalIssue);
+//            requestFocus(medicalIssue);
             return false;
         } else {
             inputLayoutName.setErrorEnabled(false);
         }
 
         return true;
+    }
+
+    public boolean validateTime()
+    {
+        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+5:30"));
+        Date currentLocalTime = cal.getTime();
+        DateFormat date = new SimpleDateFormat("HH:mm");
+        date.setTimeZone(TimeZone.getTimeZone("GMT+5:30"));
+        String localTime = date.format(currentLocalTime);
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("dd / MM / yyyy");
+        String local_date = mdformat.format(calendar.getTime());
+
+        if(time.isEmpty())
+            time = localTime;
+        if(local_date.equals(date_of_appointment))
+        {
+            if ((Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) >= 9 && Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) <= 13) || (Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) >= 16 && Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) <= 19)) {
+
+                if (type.equals("Regular")) {
+
+                    if ((Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) >= Integer.parseInt(localTime.substring(0, localTime.indexOf(':')).trim()) + 2) && (Integer.parseInt(time.substring(time.indexOf(':'), time.indexOf('\0')).trim()) >= Integer.parseInt(localTime.substring(time.indexOf(':'), localTime.indexOf('\0')).trim()))) {
+                        return true;
+                    } else {
+                        MDToast mdToast = MDToast.makeText(getActivity(), "For Regular cases,you have to book atleast 2 hours prior.", MDToast.LENGTH_LONG, MDToast.TYPE_ERROR);
+                        mdToast.show();
+                        return false;
+                    }
+                } else {
+                    if (((Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) - Integer.parseInt(localTime.substring(0, localTime.indexOf(':')).trim())) * 60) + (Integer.parseInt(time.substring(time.indexOf(':') + 1, time.length()).trim()) - Integer.parseInt(localTime.substring(time.indexOf(':') + 1, localTime.length()).trim())) > 30) {
+                        return true;
+                    } else {
+                        MDToast mdToast = MDToast.makeText(getActivity(), "For Emergency cases,you have to book atleast 30 minutes prior.", MDToast.LENGTH_LONG, MDToast.TYPE_ERROR);
+                        mdToast.show();
+                        return false;
+                    }
+                }
+            } else {
+                MDToast mdToast = MDToast.makeText(getActivity(), "Working hours are 9 AM to 1PM and 4PM to 7PM", MDToast.LENGTH_LONG, MDToast.TYPE_ERROR);
+                mdToast.show();
+                return false;
+            }
+        }
+        else
+        {
+            if ((Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) >= 9 && Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) <= 13) || (Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) >= 16 && Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) <= 19)) {
+                return true;
+            } else {
+                MDToast mdToast = MDToast.makeText(getActivity(), "Working hours are 9 AM to 1PM and 4PM to 7PM", MDToast.LENGTH_LONG, MDToast.TYPE_ERROR);
+                mdToast.show();
+                return false;
+            }
+        }
     }
 
     private void requestFocus(View view) {
@@ -391,6 +421,34 @@ public class AppointmentFragment extends Fragment implements View.OnClickListene
                 case R.id.issue:
                     validateIssue();
                     break;
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.getCurrentFocus().getWindowToken(), 0);
+    }
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
             }
         }
     }

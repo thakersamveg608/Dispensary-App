@@ -6,7 +6,7 @@ package com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.team
 
 public class Urls {
 
-    public static final String BASE_URL = "http://192.168.43.55:8000/";
+    public static final String BASE_URL = "https://nitrr-dispensary.herokuapp.com/";
     public static final String REQUEST_REGISTER = "user/register/";
     public static final String REQUEST_VERIFY = "otp/verify/";
     public static final String REQUEST_LOGIN = "user/login/";

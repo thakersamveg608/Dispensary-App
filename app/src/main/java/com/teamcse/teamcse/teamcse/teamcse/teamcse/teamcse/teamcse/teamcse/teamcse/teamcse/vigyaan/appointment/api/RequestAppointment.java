@@ -15,5 +15,5 @@ import retrofit2.http.POST;
 public interface RequestAppointment {
     @FormUrlEncoded
     @POST(Urls.REQUEST_APPOINTMENT)
-    Call<AppointmentDataResponse> getJSON(@Field("token") String token,@Field("name") String name, @Field("medical_issue") String issue, @Field("issue_type") String type,@Field("date") String date,@Field("time") String time);
+    Call<AppointmentDataResponse> getJSON(@Field("token") String token,@Field("name") String name, @Field("medical_issue") String issue, @Field("issue_type") String type,@Field("date_of_appointment") String date,@Field("time") String time);
 }
