@@ -11,6 +11,5 @@ public interface OtpView {
     void showProgressBar(boolean show);
     void showMessage(String message);
     void OtpStatus(OtpData otpData);
-    void verify_bttn_clickable();
 
 }

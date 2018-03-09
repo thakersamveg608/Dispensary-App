@@ -11,6 +11,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -163,6 +164,7 @@ public class AppointmentFragment extends Fragment implements AppointmentView{
                     Calendar calendar = Calendar.getInstance();
                     SimpleDateFormat mdformat = new SimpleDateFormat("dd / MM / yyyy");
                     date_of_appointment = mdformat.format(calendar.getTime());
+                    Log.d("Day=",date_of_appointment);
                 }
 
                 if(!validateName() || !validateIssue() || date_of_appointment.isEmpty()){
@@ -185,8 +187,9 @@ public class AppointmentFragment extends Fragment implements AppointmentView{
                                 public void onClick(View v) {
                                     appointmentPresenter = new AppointmentPresenterImpl(AppointmentFragment.this,new RetrofitAppointmentHelper());
                                     appointmentPresenter.getAppointmentData(name,sharedPrefs.getAccessToken(),issue, date_of_appointment,time,type);
-                                    patientName.setHint("Patient's Full Name");
-                                    medicalIssue.setHint("Medical Issue");
+                                    patientName.setText("");
+                                    medicalIssue.setText("");
+                                    date_of_appointment="";
                                     horizontalCalendar.refresh();
                                 }
                             })
@@ -317,7 +320,7 @@ public class AppointmentFragment extends Fragment implements AppointmentView{
     {
         if (patientName.getText().toString().trim().isEmpty()) {
             inputLayoutName.setError(getString(R.string.err_msg_empty));
-//            requestFocus(patientName);
+            requestFocus(patientName);
             return false;
         } else {
             inputLayoutName.setErrorEnabled(false);
@@ -330,7 +333,7 @@ public class AppointmentFragment extends Fragment implements AppointmentView{
     {
         if (medicalIssue.getText().toString().trim().isEmpty()) {
             inputLayoutName.setError(getString(R.string.err_msg_empty));
-//            requestFocus(medicalIssue);
+            requestFocus(medicalIssue);
             return false;
         } else {
             inputLayoutName.setErrorEnabled(false);
@@ -359,7 +362,7 @@ public class AppointmentFragment extends Fragment implements AppointmentView{
 
                 if (type.equals("Regular")) {
 
-                    if ((Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) >= Integer.parseInt(localTime.substring(0, localTime.indexOf(':')).trim()) + 2) && (Integer.parseInt(time.substring(time.indexOf(':'), time.indexOf('\0')).trim()) >= Integer.parseInt(localTime.substring(time.indexOf(':'), localTime.indexOf('\0')).trim()))) {
+                    if (((Integer.parseInt(time.substring(0, time.indexOf(':')).trim()) - Integer.parseInt(localTime.substring(0, localTime.indexOf(':')).trim())) * 60) + (Integer.parseInt(time.substring(time.indexOf(':') + 1, time.length()).trim()) - Integer.parseInt(localTime.substring(time.indexOf(':') + 1, localTime.length()).trim())) > 120) {
                         return true;
                     } else {
                         MDToast mdToast = MDToast.makeText(getActivity(), "For Regular cases,you have to book atleast 2 hours prior.", MDToast.LENGTH_LONG, MDToast.TYPE_ERROR);
@@ -432,6 +435,7 @@ public class AppointmentFragment extends Fragment implements AppointmentView{
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
+    //The below function helps to hide keyboard if clicked anywhere except edit text
     public void setupUI(View view) {
 
         // Set up touch listener for non-text box views to hide keyboard.
