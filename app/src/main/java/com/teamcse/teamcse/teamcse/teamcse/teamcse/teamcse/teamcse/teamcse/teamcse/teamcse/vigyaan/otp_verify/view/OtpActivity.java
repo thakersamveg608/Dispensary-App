@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,10 +35,15 @@ import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamc
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.register.view.RegisterView;
 import com.valdesekamdem.library.mdtoast.MDToast;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import swarajsaaj.smscodereader.interfaces.OTPListener;
+import swarajsaaj.smscodereader.receivers.OtpReader;
 
-public class OtpActivity extends AppCompatActivity implements OtpView{
+public class OtpActivity extends AppCompatActivity implements OtpView,OTPListener{
 
     private String message,otpNumber;
 
@@ -73,8 +79,19 @@ public class OtpActivity extends AppCompatActivity implements OtpView{
 
             }
         });
+        OtpReader.bind(this,"CodeSV");
     }
 
+
+    private String parseCode(String message) {
+        Pattern p = Pattern.compile("\\b\\d{4}\\b");
+        Matcher m = p.matcher(message);
+        String code = "";
+        while (m.find()) {
+            code = m.group(0);
+        }
+        return code;
+    }
 
     public void proceed_verify() {
         otpNumber = otp.getText().toString();
@@ -165,6 +182,11 @@ public class OtpActivity extends AppCompatActivity implements OtpView{
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
+    }
+
+    @Override
+    public void otpReceived(String messageText) {
+        otp.setText(parseCode(messageText));
     }
 
     private class MyTextWatcher implements TextWatcher {

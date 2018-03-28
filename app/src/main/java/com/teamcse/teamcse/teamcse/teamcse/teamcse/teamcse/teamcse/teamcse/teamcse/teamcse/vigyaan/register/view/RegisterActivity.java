@@ -3,6 +3,7 @@ package com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.team
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stfalcon.smsverifycatcher.OnSmsCatchListener;
+import com.stfalcon.smsverifycatcher.SmsVerifyCatcher;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.R;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.helper.SharedPrefs;
 import com.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.teamcse.vigyaan.login.view.LoginActivity;
@@ -40,6 +43,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
     public String Name,Contact,Password,RePassword,BloodGroup,Username,Email;
 
     private SharedPrefs sharedPrefs;
+    SmsVerifyCatcher smsVerifyCatcher;
 
     private RegisterPresenter registerPresenter;
 
@@ -121,6 +125,11 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         bloodGroup.addTextChangedListener(new MyTextWatcher(bloodGroup));
         userName.addTextChangedListener(new MyTextWatcher(userName));
         email.addTextChangedListener(new MyTextWatcher(email));
+        smsVerifyCatcher = new SmsVerifyCatcher(this, new OnSmsCatchListener<String>() {
+            @Override
+            public void onSmsCatch(String message) {
+            }
+        });
     }
     private void registerClick(){
         showProgressBar(true)
@@ -159,6 +168,23 @@ public class RegisterActivity extends AppCompatActivity implements RegisterView{
         Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
         startActivity(i);
         finish();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        smsVerifyCatcher.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        smsVerifyCatcher.onStop();
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        smsVerifyCatcher.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override

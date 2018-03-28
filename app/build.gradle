@@ -26,6 +26,8 @@ dependencies {
             'resso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.github.stfalcon:smsverifycatcher:0.3.1'
+    compile 'swarajsaaj:otpreader:1.1'
     compile 'com.github.florent37:materialtextfield:1.0.7'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
     compile 'com.android.support:multidex:1.0.1'
