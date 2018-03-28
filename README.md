@@ -30,7 +30,7 @@ Map activity for current location and for looking near-by hospitals.<br>
 <br>Onclicking the top-left button,all nearby hospitals are shown up and on clicking on them you can get the route.<br>
 <img src="https://user-images.githubusercontent.com/26307004/38046589-a8ab4ab2-32dd-11e8-92bd-1d99185d5052.jpg" width="250">
 
-The Application is under work.Any suggestions would be appreciated.
+The Application is under work.Any suggestions would be appreciated.Messaging is on a break for now.
 To use the application.Just clone and run. Sign-in credentials : <br>Username : testuser<br>Password : test12345
 
 # Built With
